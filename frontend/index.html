@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAW Online - Digital Audio Workstation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/daw.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+                <span>DAW Online</span>
+            </div>
+            <nav class="main-nav">
+                <button id="fileBtn" class="nav-btn">
+                    <i class="fas fa-file"></i> Arquivo
+                </button>
+                <button id="editBtn" class="nav-btn">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+                <button id="viewBtn" class="nav-btn">
+                    <i class="fas fa-eye"></i> Visualizar
+                </button>
+                <button id="toolsBtn" class="nav-btn">
+                    <i class="fas fa-tools"></i> Ferramentas
+                </button>
+            </nav>
+        </div>
+        
+        <div class="header-center">
+            <div class="transport-controls">
+                <button id="recordBtn" class="transport-btn record">
+                    <i class="fas fa-circle"></i>
+                </button>
+                <button id="playBtn" class="transport-btn play">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="stopBtn" class="transport-btn stop">
+                    <i class="fas fa-stop"></i>
+                </button>
+                <button id="loopBtn" class="transport-btn loop">
+                    <i class="fas fa-sync"></i>
+                </button>
+            </div>
+            
+            <div class="time-display">
+                <span id="currentTime">00:00:00</span>
+                <span class="separator">/</span>
+                <span id="totalTime">00:00:00</span>
+            </div>
+            
+            <div class="tempo-controls">
+                <label>BPM:</label>
+                <input type="number" id="bpmInput" value="120" min="60" max="200">
+                <button id="metronomeBtn" class="tempo-btn">
+                    <i class="fas fa-bell"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <div class="collaboration-status">
+                <button id="collaborateBtn" class="collab-btn">
+                    <i class="fas fa-users"></i>
+                    <span id="collaboratorCount">1</span>
+                </button>
+            </div>
+            
+            <div class="user-menu">
+                <img id="userAvatar" src="https://via.placeholder.com/32x32/3498db/fff?text=U" alt="User">
+                <span id="username">Usuário</span>
+                <button id="userMenuBtn" class="user-menu-btn">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Browser</h3>
+                <div class="browser-tabs">
+                    <button class="browser-tab active" data-tab="sounds">Sons</button>
+                    <button class="browser-tab" data-tab="plugins">Plugins</button>
+                    <button class="browser-tab" data-tab="samples">Samples</button>
+                </div>
+                
+                <div class="browser-content">
+                    <div id="sounds-tab" class="tab-content active">
+                        <div class="search-box">
+                            <input type="text" placeholder="Buscar sons...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="file-tree">
+                            <!-- Conteúdo dinâmico -->
+                        </div>
+                    </div>
+                    
+                    <div id="plugins-tab" class="tab-content">
+                        <div class="plugin-categories">
+                            <div class="plugin-category">
+                                <h4>Instrumentos</h4>
+                                <ul class="plugin-list">
+                                    <li draggable="true" data-plugin="synth">
+                                        <i class="fas fa-keyboard"></i> Synth
+                                    </li>
+                                    <li draggable="true" data-plugin="piano">
+                                        <i class="fas fa-music"></i> Piano
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-category">
+                                <h4>Efeitos</h4>
+                                <ul class="plugin-list">
+                                    <li draggable="true" data-plugin="eq">
+                                        <i class="fas fa-sliders-h"></i> EQ
+                                    </li>
+                                    <li draggable="true" data-plugin="reverb">
+                                        <i class="fas fa-water"></i> Reverb
+                                    </li>
+                                    <li draggable="true" data-plugin="compressor">
+                                        <i class="fas fa-compress"></i> Compressor
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="samples-tab" class="tab-content">
+                        <div class="sample-packs">
+                            <!-- Conteúdo dinâmico -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Propriedades</h3>
+                <div id="propertiesPanel" class="properties-panel">
+                    <p>Selecione um elemento para ver suas propriedades</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Track Area -->
+        <section class="track-area">
+            <!-- Track Headers -->
+            <div class="track-headers">
+                <div class="track-controls-header">
+                    <button id="addTrackBtn" class="add-track-btn">
+                        <i class="fas fa-plus"></i> Nova Faixa
+                    </button>
+                </div>
+                
+                <div id="trackHeadersContainer" class="track-headers-container">
+                    <!-- Track headers serão gerados dinamicamente -->
+                </div>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="timeline-container">
+                <div class="timeline-ruler">
+                    <canvas id="timelineCanvas" width="2000" height="30"></canvas>
+                </div>
+                
+                <div class="tracks-container">
+                    <div id="tracksArea" class="tracks-area">
+                        <!-- Tracks serão gerados dinamicamente -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Master Section -->
+        <section class="master-section">
+            <div class="master-controls">
+                <h3>Master</h3>
+                
+                <div class="master-volume">
+                    <div class="volume-fader">
+                        <input type="range" id="masterVolume" min="0" max="100" value="75" orient="vertical">
+                        <span class="volume-label">75</span>
+                    </div>
+                    
+                    <div class="master-meter">
+                        <div class="meter-bar left" id="masterMeterL"></div>
+                        <div class="meter-bar right" id="masterMeterR"></div>
+                    </div>
+                </div>
+                
+                <div class="master-effects">
+                    <button class="effect-slot" data-slot="1">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="effect-slot" data-slot="2">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="effect-slot" data-slot="3">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login - DAW Online</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUsername">Usuário ou Email:</label>
+                        <input type="text" id="loginUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Senha:</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Entrar</button>
+                </form>
+                <p class="form-footer">
+                    Não tem conta? <a href="#" id="showRegisterForm">Cadastre-se</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cadastro - DAW Online</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerUsername">Nome de usuário:</label>
+                        <input type="text" id="registerUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email:</label>
+                        <input type="email" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Senha:</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerName">Nome completo:</label>
+                        <input type="text" id="registerName">
+                    </div>
+                    <button type="submit" class="btn-primary">Cadastrar</button>
+                </form>
+                <p class="form-footer">
+                    Já tem conta? <a href="#" id="showLoginForm">Faça login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Novo Projeto</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="projectForm">
+                    <div class="form-group">
+                        <label for="projectName">Nome do projeto:</label>
+                        <input type="text" id="projectName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectDescription">Descrição:</label>
+                        <textarea id="projectDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="projectBpm">BPM:</label>
+                            <input type="number" id="projectBpm" value="120" min="60" max="200">
+                        </div>
+                        <div class="form-group">
+                            <label for="projectKey">Tonalidade:</label>
+                            <select id="projectKey">
+                                <option value="C">C</option>
+                                <option value="C#">C#</option>
+                                <option value="D">D</option>
+                                <option value="D#">D#</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="F#">F#</option>
+                                <option value="G">G</option>
+                                <option value="G#">G#</option>
+                                <option value="A">A</option>
+                                <option value="A#">A#</option>
+                                <option value="B">B</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Criar Projeto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Carregando DAW Online...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/audio-engine.js"></script>
+    <script src="js/track-manager.js"></script>
+    <script src="js/plugin-manager.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

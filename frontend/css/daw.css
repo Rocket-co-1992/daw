@@ -1,0 +1,673 @@
+/* Estilos específicos da DAW */
+
+/* Track Styles */
+.track {
+    height: var(--track-height);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    background: var(--bg-secondary);
+    position: relative;
+}
+
+.track.selected {
+    background: rgba(52, 152, 219, 0.1);
+    border-color: var(--primary-color);
+}
+
+.track-header {
+    width: var(--track-header-width);
+    background: var(--bg-tertiary);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    justify-content: space-between;
+}
+
+.track-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.track-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    padding: 2px 4px;
+    border-radius: 2px;
+    cursor: text;
+}
+
+.track-name:focus {
+    background: var(--bg-primary);
+    outline: 1px solid var(--primary-color);
+}
+
+.track-type {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.track-controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.track-control-btn {
+    width: 24px;
+    height: 20px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.15s ease;
+}
+
+.track-control-btn.mute {
+    background: var(--bg-quaternary);
+    color: var(--text-secondary);
+}
+
+.track-control-btn.mute.active {
+    background: var(--warning-color);
+    color: white;
+}
+
+.track-control-btn.solo {
+    background: var(--bg-quaternary);
+    color: var(--text-secondary);
+}
+
+.track-control-btn.solo.active {
+    background: var(--accent-color);
+    color: white;
+}
+
+.track-control-btn.record {
+    background: var(--bg-quaternary);
+    color: var(--text-secondary);
+}
+
+.track-control-btn.record.active {
+    background: var(--accent-color);
+    color: white;
+    animation: recordBlink 1s infinite;
+}
+
+@keyframes recordBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.5; }
+}
+
+.track-volume {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.track-volume-slider {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--bg-quaternary);
+    border-radius: 2px;
+    outline: none;
+}
+
+.track-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.track-volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+.track-volume-value {
+    font-size: 10px;
+    color: var(--text-muted);
+    min-width: 24px;
+    text-align: center;
+}
+
+.track-content {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-primary);
+}
+
+/* Audio Regions */
+.audio-region {
+    position: absolute;
+    height: calc(100% - 4px);
+    margin: 2px 0;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+}
+
+.audio-region.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.audio-region.audio {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    border-left: 3px solid #2574a9;
+}
+
+.audio-region.midi {
+    background: linear-gradient(45deg, #2ecc71, #27ae60);
+    border-left: 3px solid #229954;
+}
+
+.region-waveform {
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,50 Q25,20 50,50 T100,50" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none"/></svg>');
+    background-repeat: repeat-x;
+    background-size: 20px 100%;
+}
+
+.region-name {
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    font-size: 11px;
+    font-weight: 500;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    pointer-events: none;
+}
+
+.region-handles {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: rgba(255,255,255,0.2);
+    cursor: ew-resize;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.audio-region:hover .region-handles {
+    opacity: 1;
+}
+
+.region-handles.left {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.region-handles.right {
+    right: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+/* Plugin Racks */
+.plugin-rack {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    margin: 4px;
+    min-height: 60px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.plugin-slot {
+    height: 40px;
+    background: var(--bg-quaternary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.plugin-slot:hover {
+    background: var(--bg-secondary);
+}
+
+.plugin-slot.empty {
+    border: 2px dashed var(--border-color);
+    background: transparent;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.plugin-slot.empty:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.plugin-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.plugin-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.plugin-type {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.plugin-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.plugin-control-btn {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 2px;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.15s ease;
+}
+
+.plugin-control-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Automation */
+.automation-lane {
+    height: 60px;
+    background: rgba(0,0,0,0.3);
+    border-top: 1px solid var(--border-color);
+    position: relative;
+    cursor: crosshair;
+}
+
+.automation-curve {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.automation-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--warning-color);
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: grab;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+}
+
+.automation-point:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.3);
+}
+
+.automation-point.selected {
+    background: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
+}
+
+/* Timeline Ruler */
+.timeline-ruler {
+    position: relative;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+    user-select: none;
+}
+
+.timeline-markers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.timeline-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border-color);
+}
+
+.timeline-marker.beat {
+    background: var(--text-muted);
+}
+
+.timeline-marker.bar {
+    background: var(--text-secondary);
+    width: 2px;
+}
+
+.timeline-text {
+    position: absolute;
+    top: 2px;
+    font-size: 10px;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+    pointer-events: none;
+}
+
+/* Playhead */
+.playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent-color);
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 0 4px rgba(231, 76, 60, 0.5);
+}
+
+.playhead::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--accent-color);
+}
+
+/* Selection */
+.selection-area {
+    position: absolute;
+    background: rgba(52, 152, 219, 0.2);
+    border: 1px solid var(--primary-color);
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* Drag and Drop */
+.drag-target {
+    border: 2px dashed var(--primary-color);
+    background: rgba(52, 152, 219, 0.1);
+}
+
+.drag-preview {
+    position: fixed;
+    background: var(--bg-secondary);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 4px 8px;
+    font-size: 12px;
+    color: var(--text-primary);
+    pointer-events: none;
+    z-index: 10000;
+    box-shadow: var(--shadow-medium);
+}
+
+/* Context Menus */
+.context-menu {
+    position: fixed;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-heavy);
+    padding: 4px 0;
+    min-width: 150px;
+    z-index: 10000;
+    animation: contextMenuSlideIn 0.15s ease;
+}
+
+@keyframes contextMenuSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.context-menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.15s ease;
+}
+
+.context-menu-item:hover {
+    background: var(--bg-quaternary);
+}
+
+.context-menu-item.disabled {
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.context-menu-item.disabled:hover {
+    background: transparent;
+}
+
+.context-menu-separator {
+    height: 1px;
+    background: var(--border-color);
+    margin: 4px 0;
+}
+
+/* Zoom Controls */
+.zoom-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 8px;
+    box-shadow: var(--shadow-medium);
+}
+
+.zoom-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: var(--border-radius);
+    background: var(--bg-quaternary);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s ease;
+}
+
+.zoom-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.zoom-level {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Plugin Windows */
+.plugin-window {
+    position: fixed;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-heavy);
+    min-width: 300px;
+    min-height: 200px;
+    z-index: 5000;
+    resize: both;
+    overflow: hidden;
+}
+
+.plugin-window-header {
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+}
+
+.plugin-window-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.plugin-window-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.plugin-window-btn {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 2px;
+    background: var(--bg-quaternary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.15s ease;
+}
+
+.plugin-window-btn:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.plugin-window-content {
+    padding: 16px;
+    height: calc(100% - 40px);
+    overflow: auto;
+}
+
+/* Status Bar */
+.status-bar {
+    height: 24px;
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.status-info {
+    display: flex;
+    gap: 16px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cpu-meter {
+    width: 40px;
+    height: 4px;
+    background: var(--bg-quaternary);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.cpu-meter-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--success-color), var(--warning-color), var(--accent-color));
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .track-header {
+        width: 150px;
+    }
+    
+    .track-controls {
+        flex-wrap: wrap;
+        gap: 2px;
+    }
+    
+    .track-control-btn {
+        width: 20px;
+        height: 16px;
+        font-size: 8px;
+    }
+    
+    .plugin-window {
+        min-width: 280px;
+        min-height: 180px;
+    }
+    
+    .zoom-controls {
+        bottom: 10px;
+        right: 10px;
+        padding: 4px;
+    }
+    
+    .zoom-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+}

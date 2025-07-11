@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         testdox="true">
+    
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Feature Tests">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    
+    <source>
+        <include>
+            <directory>backend/src</directory>
+        </include>
+        <exclude>
+            <directory>backend/src/migrations</directory>
+            <file>backend/src/config.php</file>
+        </exclude>
+    </source>
+    
+    <coverage>
+        <report>
+            <html outputDirectory="coverage-html"/>
+            <text outputFile="coverage.txt"/>
+            <clover outputFile="coverage.xml"/>
+        </report>
+    </coverage>
+    
+    <logging>
+        <junit outputFile="tests/results.xml"/>
+    </logging>
+    
+    <php>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="JWT_SECRET" value="test_secret_key_for_testing_only"/>
+        <env name="APP_ENV" value="testing"/>
+    </php>
+</phpunit>
