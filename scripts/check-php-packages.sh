@@ -20,7 +20,6 @@ php_packages=(
     "php8.2-gd"
     "php8.2-curl"
     "php8.2-mbstring"
-    "php8.2-openssl"
     "php8.2-zip"
     "php8.2-redis"
     "php8.2-intl"
