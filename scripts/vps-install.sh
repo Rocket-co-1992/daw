@@ -170,7 +170,7 @@ npm install -g pm2
 
 # 10. Configurar diretório da aplicação
 log "Configurando aplicação..."
-APP_DIR="/var/www/daw-online"
+APP_DIR="/var/www/daw"
 
 if [[ ! -d "$APP_DIR" ]]; then
     error "Diretório da aplicação não encontrado em $APP_DIR"
@@ -219,7 +219,7 @@ JWT_EXPIRATION=3600
 
 # Uploads
 UPLOAD_MAX_SIZE=100MB
-UPLOAD_PATH=/var/www/daw-online/uploads
+UPLOAD_PATH=/var/www/daw/uploads
 
 # WebSocket
 WEBSOCKET_HOST=0.0.0.0
@@ -249,7 +249,7 @@ server {
 server {
     listen 443 ssl http2;
     server_name $DOMAIN www.$DOMAIN;
-    root /var/www/daw-online/frontend;
+    root /var/www/daw/frontend;
     index index.html index.php;
 
     # SSL Configuration (será configurado pelo Certbot)
@@ -419,7 +419,7 @@ mkdir -p "$APP_DIR/scripts"
 # Script de backup
 cat > "$APP_DIR/scripts/backup.sh" << EOF
 #!/bin/bash
-BACKUP_DIR="/var/backups/daw-online"
+BACKUP_DIR="/var/backups/daw"
 DATE=\$(date +%Y%m%d_%H%M%S)
 
 mkdir -p "\$BACKUP_DIR"
@@ -428,7 +428,7 @@ mkdir -p "\$BACKUP_DIR"
 mysqldump -u $DB_USER -p$DB_PASSWORD $DB_NAME > "\$BACKUP_DIR/db_\$DATE.sql"
 
 # Backup dos arquivos
-tar -czf "\$BACKUP_DIR/files_\$DATE.tar.gz" -C /var/www daw-online/uploads daw-online/config/.env
+tar -czf "\$BACKUP_DIR/files_\$DATE.tar.gz" -C /var/www daw/uploads daw/config/.env
 
 # Manter apenas os últimos 7 backups
 find "\$BACKUP_DIR" -name "*.sql" -mtime +7 -delete
@@ -455,7 +455,7 @@ done
 # Verificar WebSocket
 if ! pm2 describe daw-websocket > /dev/null 2>&1; then
     echo "ERRO: WebSocket server não está rodando"
-    cd /var/www/daw-online/websocket
+    cd /var/www/daw/websocket
     pm2 restart daw-websocket
 fi
 EOF
